@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>YYHEggEgg.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>EggEgg.$(AssemblyName)</PackageId>
+    <Authors>YYHEggEgg</Authors>
+    <Product>EggEgg.$(AssemblyName)</Product>
+    <Description>A collection of practical .NET Stream inheritors.</Description>
+    <Copyright>Copyright (c) 2025 YYHEggEgg</Copyright>
+    <RepositoryUrl>https://github.com/YYHEggEgg/AwesomeStream</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/YYHEggEgg/AwesomeStream</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+</Project>
