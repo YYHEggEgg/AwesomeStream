@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.36105.23 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeStream", "AwesomeStream\AwesomeStream.csproj", "{FF974A70-16A4-4664-8F39-70154D957622}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeStream.Tests", "AwesomeStream.Tests\AwesomeStream.Tests.csproj", "{DABF05A7-6BE6-4249-B08D-9FE94A4F71E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FF974A70-16A4-4664-8F39-70154D957622}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF974A70-16A4-4664-8F39-70154D957622}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF974A70-16A4-4664-8F39-70154D957622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DABF05A7-6BE6-4249-B08D-9FE94A4F71E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DABF05A7-6BE6-4249-B08D-9FE94A4F71E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DABF05A7-6BE6-4249-B08D-9FE94A4F71E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DABF05A7-6BE6-4249-B08D-9FE94A4F71E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
