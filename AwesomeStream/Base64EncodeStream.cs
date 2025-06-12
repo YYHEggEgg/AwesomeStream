@@ -115,39 +115,6 @@ public sealed class Base64EncodeStream(Stream input, long contentLength = -1) : 
 
         return totalRead;
     }
-
-#pragma warning disable CS0108 // 成员隐藏继承的成员；缺少关键字 new
-    /// <summary>
-    /// Reads bytes from the current stream and advances the position within the stream until the <paramref name="buffer"/> is filled.
-    /// </summary>
-    /// <param name="buffer">A region of memory. When this method returns, the contents of this region are replaced by the bytes read from the current stream.</param>
-    /// <exception cref="EndOfStreamException">
-    /// The end of the stream is reached before filling the <paramref name="buffer"/>.
-    /// </exception>
-    /// <remarks>
-    /// When <paramref name="buffer"/> is empty, this read operation will be completed without waiting for available data in the stream.
-    /// </remarks>
-    private static void ReadExactly(Stream stream, Span<byte> buffer) =>
-        _ = ReadAtLeastCore(stream, buffer, buffer.Length, throwOnEndOfStream: true);
-
-    /// <summary>
-    /// Asynchronously reads bytes from the current stream, advances the position within the stream until the <paramref name="buffer"/> is filled,
-    /// and monitors cancellation requests.
-    /// </summary>
-    /// <param name="buffer">The buffer to write the data into.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-    /// <returns>A task that represents the asynchronous read operation.</returns>
-    /// <exception cref="EndOfStreamException">
-    /// The end of the stream is reached before filling the <paramref name="buffer"/>.
-    /// </exception>
-    /// <remarks>
-    /// When <paramref name="buffer"/> is empty, this read operation will be completed without waiting for available data in the stream.
-    /// </remarks>
-    private static async ValueTask ReadExactlyAsync(Stream stream, Memory<byte> buffer, CancellationToken cancellationToken = default)
-    {
-        await ReadAtLeastAsyncCore(stream, buffer, buffer.Length, throwOnEndOfStream: true, cancellationToken);
-    }
-#pragma warning restore CS0108 // 成员隐藏继承的成员；缺少关键字 new
     #endregion
 
     #region Encoding Methods
@@ -163,7 +130,8 @@ public sealed class Base64EncodeStream(Stream input, long contentLength = -1) : 
         var readLimit = padsCount * 3;
         var remainingLength = _contentLength - _inputPos;
         var bytesBuffer = new byte[Math.Min(readLimit, remainingLength)];
-        ReadExactly(input, bytesBuffer);
+        var read = ReadAtLeastCore(input, bytesBuffer, bytesBuffer.Length, false);
+        if (read == 0) return 0;
         _inputPos += bytesBuffer.Length;
         return WriteBase64EncodedBuffer(bytesBuffer, buffer);
     }
@@ -174,7 +142,8 @@ public sealed class Base64EncodeStream(Stream input, long contentLength = -1) : 
         var readLimit = padsCount * 3;
         var remainingLength = _contentLength - _inputPos;
         var bytesBuffer = new byte[Math.Min(readLimit, remainingLength)];
-        await ReadExactlyAsync(input, bytesBuffer, cancellationToken);
+        var read = await ReadAtLeastAsyncCore(input, bytesBuffer, bytesBuffer.Length, false, cancellationToken);
+        if (read == 0) return 0;
         return WriteBase64EncodedBuffer(bytesBuffer, buffer.Span);
     }
     #endregion

@@ -7,6 +7,7 @@
     <LangVersion>Latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.0.1</Version>
     <RootNamespace>YYHEggEgg.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>EggEgg.$(AssemblyName)</PackageId>

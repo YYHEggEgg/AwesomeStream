@@ -30,7 +30,7 @@ using System.Text;
 using Xunit;
 using YYHEggEgg.AwesomeStream;
 
-public class Base64EncodeStreamTests
+public partial class Base64EncodeStreamTests
 {
     private static string OutputFromBase64EncodeStream(byte[] bytes)
     {
@@ -156,11 +156,32 @@ public class Base64EncodeStreamTests
         yield return new object[] { Encoding.Unicode.GetBytes("eeeebbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccdgggdaaaabbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccddx"), "ZQBlAGUAZQBiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABnAGcAZwBkAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZABkAGQAZABkAGQAZQBlAGUAZQBlAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZABkAGQAZABkAGQAZQBlAGUAZQBlAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZAB4AA==" };
     }
 
-
     [Theory]
     [MemberData(nameof(ConvertToBase64StringTests_TestData))]
     public static void ConvertToBase64String(byte[] inputBytes, string expectedBase64)
     {
         Assert.Equal(expectedBase64, OutputFromBase64EncodeStream(inputBytes));
+    }
+
+    [Fact]
+    public static void ReadAfterEof()
+    {
+        var stream = new Base64EncodeStream(new MemoryStream(Encoding.UTF8.GetBytes("1")));
+        Assert.Equal(4, stream.Read(new byte[4096]));
+        Assert.Equal(0, stream.Read(new byte[4096]));
+    }
+
+    [Theory]
+    [MemberData(nameof(ConvertToBase64StringTests_TestData))]
+    public static void ConvertToBase64HttpData(byte[] inputBytes, string expectedBase64)
+    {
+        var transformStream = new Base64EncodeStream(new MemoryStream(inputBytes));
+        var content = new StreamContent(transformStream);
+        var outStream = new MemoryStream();
+        content.CopyTo(outStream, null, default);
+        outStream.Seek(0, SeekOrigin.Begin);
+        var reader = new StreamReader(outStream);
+        var outStr = reader.ReadToEnd();
+        Assert.Equal(expectedBase64, outStr);
     }
 }
