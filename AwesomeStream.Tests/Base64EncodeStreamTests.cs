@@ -154,6 +154,11 @@ public partial class Base64EncodeStreamTests
         yield return new object[] { Encoding.Unicode.GetBytes("    bbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccddaaaabbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccd"), "IAAgACAAIABiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABkAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZABkAGQAZABkAGQAZQBlAGUAZQBlAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZABkAGQAZABkAGQAZQBlAGUAZQBlAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQA" };
         yield return new object[] { Encoding.Unicode.GetBytes("\0\0bbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccddaaaabbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccddx"), "AAAAAGIAYgBiAGIAYwBjAGMAYwBkAGQAZABkAGQAZABkAGUAZQBlAGUAZQBhAGEAYQBhAGIAYgBiAGIAYwBjAGMAYwBkAGQAZABkAGQAZABkAGUAZQBlAGUAZQBhAGEAYQBhAGIAYgBiAGIAYwBjAGMAYwBkAGQAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABkAHgA" };
         yield return new object[] { Encoding.Unicode.GetBytes("eeeebbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccdgggdaaaabbbbccccdddddddeeeeeaaaabbbbccccdddddddeeeeeaaaabbbbccccddx"), "ZQBlAGUAZQBiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABkAGQAZABkAGQAZABlAGUAZQBlAGUAYQBhAGEAYQBiAGIAYgBiAGMAYwBjAGMAZABnAGcAZwBkAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZABkAGQAZABkAGQAZQBlAGUAZQBlAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZABkAGQAZABkAGQAZQBlAGUAZQBlAGEAYQBhAGEAYgBiAGIAYgBjAGMAYwBjAGQAZAB4AA==" };
+
+        var bigData1 = Enumerable.Range(0, 171085).Select(i => (byte)i).ToArray();
+        yield return new object[] { bigData1, Convert.ToBase64String(bigData1) };
+        var bigData2 = Enumerable.Range(0, 1710851).Select(i => (byte)i).ToArray();
+        yield return new object[] { bigData2, Convert.ToBase64String(bigData2) };
     }
 
     [Theory]

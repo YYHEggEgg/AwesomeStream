@@ -144,6 +144,7 @@ public sealed class Base64EncodeStream(Stream input, long contentLength = -1) : 
         var bytesBuffer = new byte[Math.Min(readLimit, remainingLength)];
         var read = await ReadAtLeastAsyncCore(input, bytesBuffer, bytesBuffer.Length, false, cancellationToken);
         if (read == 0) return 0;
+        _inputPos += bytesBuffer.Length;
         return WriteBase64EncodedBuffer(bytesBuffer, buffer.Span);
     }
     #endregion
